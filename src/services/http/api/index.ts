@@ -7,7 +7,7 @@ import {
   RedirectToLoginInterceptor,
 } from "./interceptors/response";
 
-const baseURL = process.env.VITE_API_BASE_URL;
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const api = axios.create({
   baseURL: baseURL,

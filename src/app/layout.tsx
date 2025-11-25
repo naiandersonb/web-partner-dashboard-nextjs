@@ -4,6 +4,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { MuiLocalizationWrapper } from "@/components";
+import { getAuthenticatedUser } from "@/lib/auth.server";
+import { ReactNode } from "react";
+import { AuthProvider } from "@/contexts/AuthContextClient";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -17,14 +20,19 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
+  const userData = await getAuthenticatedUser();
+  console.log({ userData });
+
   return (
     <html lang="pt-BR">
       <body className={outfit.variable}>
         <AppRouterCacheProvider options={{ key: "css" }}>
           <ThemeProvider theme={theme}>
-            <MuiLocalizationWrapper>{children}</MuiLocalizationWrapper>
+            <AuthProvider initialData={userData}>
+              <MuiLocalizationWrapper>{children}</MuiLocalizationWrapper>
+            </AuthProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

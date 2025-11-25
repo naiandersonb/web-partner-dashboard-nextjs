@@ -1,7 +1,7 @@
-import { CustomSnackbar } from "./CustomSnackbar";
+import { ErrorDetailData } from "@/types";
 
 interface UiErrorEventMap {
-  "custom-snackbar": CustomEvent<CustomSnackbar>;
+  "custom-snackbar": CustomEvent<ErrorDetailData>;
 }
 
 declare global {
@@ -9,15 +9,13 @@ declare global {
   interface WindowEventMap extends UiErrorEventMap {}
 }
 
-// dispatch new custom event
-export const dispatchSnackbarUiEvent = (data: CustomSnackbar) => {
+export const dispatchSnackbarUiEvent = (data: ErrorDetailData) => {
   const event = new CustomEvent("custom-snackbar", { detail: data });
   window.dispatchEvent(event);
 };
 
-// listen to custom event
 export const onSnackbarUiHandler = (
-  callback: (error: CustomSnackbar) => void,
+  callback: (error: ErrorDetailData) => void,
 ) => {
   const listener = (event: CustomEvent) => {
     callback({

@@ -1,0 +1,8 @@
+.next
+node_modules
+.bin
+.husky
+.k8s
+.github
+helm
+.gitignore
