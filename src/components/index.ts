@@ -1,0 +1,1 @@
+export { MuiLocalizationWrapper } from "./MuiLocalizationWrapper";
