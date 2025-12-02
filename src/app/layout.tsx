@@ -3,10 +3,11 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import { MuiLocalizationWrapper } from "@/components";
-import { getAuthenticatedUser } from "@/lib/auth.server";
+import { MuiLocalizationWrapper, DashboardLayout } from "@/components";
 import { ReactNode } from "react";
 import { AuthProvider } from "@/contexts/AuthContextClient";
+import { CssBaseline } from "@mui/material";
+import { getAuthenticatedUser } from "@/lib/auth.server";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -22,16 +23,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const userData = await getAuthenticatedUser();
-  console.log({ userData });
-
   return (
     <html lang="pt-BR">
       <body className={outfit.variable}>
         <AppRouterCacheProvider options={{ key: "css" }}>
           <ThemeProvider theme={theme}>
-            <AuthProvider initialData={userData}>
-              <MuiLocalizationWrapper>{children}</MuiLocalizationWrapper>
+            <CssBaseline />
+            <AuthProvider initialData={null}>
+              <MuiLocalizationWrapper>
+                <DashboardLayout>{children}</DashboardLayout>
+              </MuiLocalizationWrapper>
             </AuthProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
