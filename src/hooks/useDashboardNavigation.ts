@@ -6,7 +6,12 @@ export const useDashboardNavigation = () => {
   const pathname = usePathname();
 
   const isSelected = (path: string) => {
-    return path === pathname;
+    const isMatch = pathname.startsWith(path);
+    if (path === ROUTES.DASHBOARD) {
+      return path === pathname || pathname === `${path}/`;
+    }
+
+    return isMatch;
   };
 
   const currentPage = useMemo(() => {
@@ -15,7 +20,8 @@ export const useDashboardNavigation = () => {
       [ROUTES.SERVICE_LOCATIONS]: "Locais de atendimento",
       [ROUTES.AGENDA]: "Agenda",
       [ROUTES.FINANCES]: "Financeiro",
-      [ROUTES.AGENDA_SETTINGS]: "Configurações",
+      [ROUTES.AGENDA_SETTINGS]: "Configurações da agenda",
+      [ROUTES.SETTINGS]: "Configurações",
       [ROUTES.SUPPORT]: "Ajuda & Suporte",
     };
 

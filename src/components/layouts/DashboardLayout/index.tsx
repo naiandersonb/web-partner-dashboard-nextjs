@@ -1,36 +1,23 @@
 "use client";
 
-import { useState, ReactNode, FC, JSX } from "react";
+import { useState, ReactNode, FC } from "react";
 import { Toolbar } from "./Toolbar";
 import { Logo } from "@/components";
 import { KeyboardTab } from "@mui/icons-material";
 import {
   Stack,
-  ListItemText,
-  ListItemButton,
-  ListItemIcon,
-  ListItem,
   IconButton,
   List,
   Box,
   CssBaseline,
   useTheme,
   alpha,
+  Divider,
 } from "@mui/material";
 import { AppBar, Drawer, DrawerHeader } from "./styles";
-import Link from "next/link";
 import { sidebarListItems } from "./sidebarItems";
 import { useDashboardNavigation } from "@/hooks";
-
-export interface SidebarItem {
-  title: string;
-  icons: {
-    selected: JSX.Element;
-    outline: JSX.Element;
-  };
-  path: string;
-  isVisible?: boolean;
-}
+import { SidebarItem } from "./SidebarItem";
 
 interface Props {
   children: ReactNode;
@@ -46,6 +33,7 @@ export const DashboardLayout: FC<Props> = ({ children }) => {
   const handleDrawerClose = () => setOpen(false);
 
   const { isSelected, currentPage } = useDashboardNavigation();
+  const topVisibleItem = sidebarListItems.top.filter((i) => i.isVisible);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -74,7 +62,7 @@ export const DashboardLayout: FC<Props> = ({ children }) => {
               justifyContent: open ? "space-between" : "center",
               width: "100%",
               alignItems: "center",
-              px: "16px",
+              px: "12px",
             }}
             direction="row"
           >
@@ -87,52 +75,36 @@ export const DashboardLayout: FC<Props> = ({ children }) => {
           </Stack>
         </DrawerHeader>
 
-        <List>
-          {sidebarListItems.top.map((item) => {
+        <List sx={{ flex: 1, pt: 0 }}>
+          {topVisibleItem.map((item) => {
             const isSelectedItem = isSelected(item.path);
 
             return (
-              <Link key={item.title} href={item.path}>
-                <ListItem
-                  disablePadding
-                  sx={[
-                    { display: "block" },
-                    ({ palette }) =>
-                      isSelectedItem
-                        ? {
-                            color: palette.primary.main,
-                            backgroundColor: itemSelectedBackground,
-                          }
-                        : {},
-                  ]}
-                >
-                  <ListItemButton
-                    sx={[
-                      { minHeight: 48, px: 2.5 },
-                      open
-                        ? { justifyContent: "initial" }
-                        : { justifyContent: "center" },
-                    ]}
-                  >
-                    <ListItemIcon
-                      sx={[
-                        { minWidth: 0, justifyContent: "center" },
-                        open ? { mr: 3 } : { mr: "auto" },
-                        ({ palette }) =>
-                          isSelectedItem ? { color: palette.primary.main } : {},
-                      ]}
-                    >
-                      {isSelectedItem
-                        ? item.icons.selected
-                        : item.icons.outline}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={item.title}
-                      sx={[open ? { opacity: 1 } : { opacity: 0 }]}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
+              <SidebarItem
+                key={item.key}
+                itemSelectedBackground={itemSelectedBackground}
+                item={item}
+                isSelected={isSelectedItem}
+                isOpen={open}
+              />
+            );
+          })}
+        </List>
+
+        <Divider />
+
+        <List sx={{ mb: 2 }}>
+          {sidebarListItems.bottom.map((item) => {
+            const isSelectedItem = isSelected(item.path);
+
+            return (
+              <SidebarItem
+                key={item.key}
+                itemSelectedBackground={itemSelectedBackground}
+                item={item}
+                isSelected={isSelectedItem}
+                isOpen={open}
+              />
             );
           })}
         </List>
