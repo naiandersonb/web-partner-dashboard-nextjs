@@ -19,6 +19,7 @@ export const useDashboardNavigation = () => {
       [ROUTES.DASHBOARD]: "Página inicial",
       [ROUTES.SERVICE_LOCATIONS]: "Locais de atendimento",
       [ROUTES.AGENDA]: "Agenda",
+      [ROUTES.PROFILE]: "Página profissional",
       [ROUTES.FINANCES]: "Financeiro",
       [ROUTES.AGENDA_SETTINGS]: "Configurações da agenda",
       [ROUTES.SETTINGS]: "Configurações",

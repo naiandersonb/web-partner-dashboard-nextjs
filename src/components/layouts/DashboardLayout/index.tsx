@@ -24,7 +24,7 @@ interface Props {
 }
 
 export const DashboardLayout: FC<Props> = ({ children }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const theme = useTheme();
   const itemSelectedBackground = alpha(theme.palette.primary.main, 0.06);
@@ -42,7 +42,7 @@ export const DashboardLayout: FC<Props> = ({ children }) => {
         position="fixed"
         open={open}
         sx={({ palette }) => ({
-          left: open ? 0 : "65px",
+          //left: open ? 0 : "65px",
           backgroundColor: "white",
           boxShadow: "none",
           borderBottom: "1px solid",

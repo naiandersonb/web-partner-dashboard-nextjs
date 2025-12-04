@@ -1,5 +1,11 @@
 import { KeyboardTab } from "@mui/icons-material";
-import { IconButton, Toolbar as MuiToolbar, Typography } from "@mui/material";
+import {
+  IconButton,
+  Toolbar as MuiToolbar,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { UserMenu } from "./UserMenu";
 
 interface Props {
   handleDrawerOpen: () => void;
@@ -15,31 +21,42 @@ export const Toolbar: React.FC<Props> = ({
   isOpen = false,
 }) => {
   return (
-    <MuiToolbar sx={{ position: "relative" }}>
-      {!hideMobileMenuButton && !isOpen && (
-        <IconButton
-          aria-label="toggle open/close drawer"
-          onClick={handleDrawerOpen}
-          sx={({ palette }) => ({
-            position: "absolute",
-            width: "24px",
-            height: "24px",
-            backgroundColor: palette.grey[200],
-            ":hover": {
-              backgroundColor: palette.grey[300],
-            },
-            zIndex: 10,
-            left: "-12px",
-            marginRight: 5,
-          })}
-        >
-          <KeyboardTab sx={{ color: "black", fontSize: "16px" }} />
-        </IconButton>
-      )}
+    <MuiToolbar
+      sx={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+      }}
+    >
+      <Stack direction="row">
+        {!hideMobileMenuButton && !isOpen && (
+          <IconButton
+            aria-label="toggle open/close drawer"
+            onClick={handleDrawerOpen}
+            sx={({ palette }) => ({
+              position: "absolute",
+              width: "24px",
+              height: "24px",
+              backgroundColor: palette.grey[200],
+              ":hover": {
+                backgroundColor: palette.grey[300],
+              },
+              zIndex: 10,
+              left: "-12px",
+              marginRight: 5,
+            })}
+          >
+            <KeyboardTab sx={{ color: "black", fontSize: "16px" }} />
+          </IconButton>
+        )}
 
-      <Typography variant="h6" noWrap component="div" color="textPrimary">
-        {title}
-      </Typography>
+        <Typography variant="h6" noWrap component="div" color="textPrimary">
+          {title}
+        </Typography>
+      </Stack>
+
+      <UserMenu />
     </MuiToolbar>
   );
 };

@@ -24,9 +24,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  width: `calc(${theme.spacing(8)} + 1px)`,
+  width: `calc(${theme.spacing(8)})`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(8)})`,
   },
 });
 
@@ -77,13 +77,24 @@ export const AppBar = styled(MuiAppBar, {
   }),
   variants: [
     {
-      props: ({ open }) => open,
+      props: ({ open: openProp }) => openProp,
       style: {
         marginLeft: drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
         transition: theme.transitions.create(["width", "margin"], {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
+        }),
+      },
+    },
+    {
+      props: ({ open: openProp }) => !openProp, // 💡 Estado FECHADO (65px)
+      style: {
+        marginLeft: `calc(${theme.spacing(8)} + 1px)`,
+        width: `calc(100% - calc(${theme.spacing(8)} + 1px))`,
+        transition: theme.transitions.create(["width", "margin"], {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
         }),
       },
     },
